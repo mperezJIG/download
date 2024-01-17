@@ -142,23 +142,23 @@ def create_application(
     application.include_router(router)
     application.add_event_handler("startup", set_threadpool_tokens)
 
-    if isinstance(settings, DatabaseSettings) and create_tables_on_start:
-        application.add_event_handler("startup", create_tables)
-
-    if isinstance(settings, RedisCacheSettings):
-        application.add_event_handler("startup", create_redis_cache_pool)
-        application.add_event_handler("shutdown", close_redis_cache_pool)
-
-    if isinstance(settings, ClientSideCacheSettings):
-        application.add_middleware(ClientCacheMiddleware, max_age=settings.CLIENT_CACHE_MAX_AGE)
-
-    if isinstance(settings, RedisQueueSettings):
-        application.add_event_handler("startup", create_redis_queue_pool)
-        application.add_event_handler("shutdown", close_redis_queue_pool)
-
-    if isinstance(settings, RedisRateLimiterSettings):
-        application.add_event_handler("startup", create_redis_rate_limit_pool)
-        application.add_event_handler("shutdown", close_redis_rate_limit_pool)
+    # if isinstance(settings, DatabaseSettings) and create_tables_on_start:
+    #     application.add_event_handler("startup", create_tables)
+    #
+    # if isinstance(settings, RedisCacheSettings):
+    #     application.add_event_handler("startup", create_redis_cache_pool)
+    #     application.add_event_handler("shutdown", close_redis_cache_pool)
+    #
+    # if isinstance(settings, ClientSideCacheSettings):
+    #     application.add_middleware(ClientCacheMiddleware, max_age=settings.CLIENT_CACHE_MAX_AGE)
+    #
+    # if isinstance(settings, RedisQueueSettings):
+    #     application.add_event_handler("startup", create_redis_queue_pool)
+    #     application.add_event_handler("shutdown", close_redis_queue_pool)
+    #
+    # if isinstance(settings, RedisRateLimiterSettings):
+    #     application.add_event_handler("startup", create_redis_rate_limit_pool)
+    #     application.add_event_handler("shutdown", close_redis_rate_limit_pool)
 
     if isinstance(settings, EnvironmentSettings):
         if settings.ENVIRONMENT != EnvironmentOption.PRODUCTION:
